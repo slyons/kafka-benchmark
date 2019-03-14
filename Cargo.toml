@@ -14,14 +14,13 @@ env_logger = "0.5.0"
 futures = "0.1.0"
 log = "0.4.0"
 rand = "0.4.0"
-# rdkafka = "0.14.0"
-rdkafka = { git = "https://github.com/fede1024/rust-rdkafka.git" }
+#rdkafka = "0.14.0"
+#rdkafka = { git = "https://github.com/fede1024/rust-rdkafka.git" }
 serde = "1.0.0"
 serde_derive = "1.0.0"
 serde_yaml = "0.7.0"
 
-[features]
-default = []
-
-ssl = ["rdkafka/ssl"]
-sasl = ["rdkafka/sasl", "ssl"]
+[dependencies.rdkafka]
+version = "~0.20"
+#git = "https://github.com/fede1024/rust-rdkafka.git"
+features = ["ssl", "sasl"]
