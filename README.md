@@ -60,3 +60,50 @@ Average: 76492 messages/s, 729.481 MB/s
 
 When producing to localhost, kafka-benchmark can send almost 4 million messages
 per second on commodity hardware.
+
+## Running in Docker
+
+### Building the image
+
+This build requires Docker Buildkit. You can either build it yourself locally:
+
+```sh
+DOCKER_BUILDKIT=1 docker build -t kafka-benchmark .
+```
+
+Or you can use the prebuilt one at ``slyons/rdkafka-benchmark``.
+
+### Get the config
+
+You can either check out this repo or use one of the config files located in the ``config`` directory.
+
+### Run the benchmark
+
+Assuming you've got the config files in <CONFIGDIR> and using the published docker image:
+    
+```sh
+docker run -v <CONFIGDIR>:/config slyons/rdkafka-benchmark <producer/consumer> /config/<config filename> <scenario>
+```
+
+Or, if you're running in Kubernetes:
+
+```yaml
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: rdkafka-bench
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rdkafka-bench
+    spec:
+      containers:
+      - name: rdkafka-bench
+        image: slyons/rdkafka-benchmark:latest
+        args: ["producer", "/config/future_producer.yaml", "1KB_bursts"]
+        volumeMounts:
+        - name: configvol
+          mountPath: /config
+```
