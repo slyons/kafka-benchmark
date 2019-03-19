@@ -79,7 +79,7 @@ You can either check out this repo or use one of the config files located in the
 
 ### Run the benchmark
 
-Assuming you've got the config files in <CONFIGDIR> and using the published docker image:
+Assuming you've got the config files in ``<CONFIGDIR>`` and using the published docker image:
     
 ```sh
 docker run -v <CONFIGDIR>:/config slyons/rdkafka-benchmark <producer/consumer> /config/<config filename> <scenario>
